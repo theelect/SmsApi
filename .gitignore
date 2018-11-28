@@ -1,4 +1,5 @@
 /.idea
+.phpintel
 /laravel/vendor
 Homestead.json
 Homestead.yaml
