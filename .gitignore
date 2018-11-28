@@ -1,5 +1,5 @@
 /.idea
-/laravel/vendor
+/vendor
 Homestead.json
 Homestead.yaml
 .env
