@@ -51,7 +51,7 @@ class PullingController extends Controller
                         'occupation'    => $row->occupation ?? '',
                         'vin'           => $row->vin ?? '',
                         'state'         => $row->state_name ?? '',
-                        'state_id'      => $row->state_id ?? '',
+                        'state_id'      => $row->state_id ?? 0,
                         'language'      => 'english',
                         'gender'        => $row->gender ?? 'none',
                         'status'        => 'active'
