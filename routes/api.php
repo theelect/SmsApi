@@ -12,6 +12,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function(){
 
 	Route::get('messages', 'MessagesController@index');
 	Route::get('messages/{type?}', 'MessagesController@index');
+	Route::get('messages/count/analysis', 'MessagesController@analysis');
 
 	Route::post('message', 'MessageController@save');
 	Route::post('message/{id?}/destroy', 'MessageController@deleteMessage');
