@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\UnauthorizedException;
+use Illuminate\ Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +49,42 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof ValidationException){
+
+            if(request()->ajax() || request()->wantsJson()){
+
+                foreach($exception->errors() as $key => $value){
+
+                    $error  = $value[0];
+                    break;
+                }
+
+                return response()->json([
+
+                    'status'    => false, 
+                    'data'      => $error
+
+                ], 422);
+
+            }
+            
+        }
+
+        if($exception instanceof AuthenticationException){
+
+            if(request()->ajax() || request()->wantsJson()){
+
+                return response()->json([
+
+                    'status'    => false, 
+                    'data'      => 'Unauthorized.'
+
+                ], 401);
+
+            }
+            
+        }
+        
         return parent::render($request, $exception);
     }
 }

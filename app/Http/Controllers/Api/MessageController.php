@@ -39,11 +39,20 @@ class MessageController extends Controller
 
     public function save(CreateMessageRequest $request)
     {
+        $recipients = [];
+
+        if(request('recipients')){
+
+            foreach(request('recipients') as $row)
+                $recipients[] = _tophone($row);
+        }
+
         $message = Message::create([
 
             'user_id'           => Auth::user()->id,
             'body'              => request('body'),
             'recipients_type'   => request('recipients_type', 'all'),
+            'custom_recipients' => json_encode(array_unique($recipients)),
             'scheduled'         => request('scheduled'),
             'schedule_date'     => request('schedule_date', null),
             'schedule_time'     => request('schedule_time', null),

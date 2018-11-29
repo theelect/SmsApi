@@ -19,6 +19,7 @@ class CreateSettingsTable extends Migration
             $table->integer('user_id');
             $table->string('sender_name')->nullable();
             $table->string('units_per_sms')->nullable()->default(1.5);
+            $table->integer('page')->nullable()->default(1.5);
             $table->timestamps();
         });
     }
