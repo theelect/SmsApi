@@ -44,6 +44,7 @@ class MessageController extends Controller
             'user_id'           => Auth::user()->id,
             'body'              => request('body'),
             'recipients_type'   => request('recipients_type', 'all'),
+            'custom_recipients' => json_encode(request('recipients', null)),
             'scheduled'         => request('scheduled'),
             'schedule_date'     => request('schedule_date', null),
             'schedule_time'     => request('schedule_time', null),
