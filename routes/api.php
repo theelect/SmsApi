@@ -17,5 +17,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function(){
 	Route::post('message', 'MessageController@save');
 	Route::post('message/{id?}/destroy', 'MessageController@deleteMessage');
 	Route::get('message/{id?}', 'MessageController@index');
+
 });
+
+Route::get('locals', 'Api\ContactsController@locals');
+Route::get('wards', 'Api\ContactsController@wards');
 
