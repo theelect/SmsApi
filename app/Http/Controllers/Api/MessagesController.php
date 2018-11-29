@@ -63,4 +63,24 @@ class MessagesController extends Controller
         return response()->json(['status' => true, 'data' => $response]);
     }
 
+    public function analysis(Request $request)
+    {
+        $schedule = Message::where(['user_id' => Auth::user()->id, 'status' => 'pending'])
+                            ->whereNotNull('schedule_date')
+                            ->get()
+                            ->count();
+
+        $sent = Message::where(['user_id' => Auth::user()->id, 'status' => 'completed'])
+            ->whereNull('schedule_date')
+            ->get()
+            ->count();
+
+        $response = [
+            'scheduled' => $schedule,
+            'sent' => $sent
+        ];
+
+        return response()->json(['status' => true, 'data' => $response]);
+    }
+
 }
