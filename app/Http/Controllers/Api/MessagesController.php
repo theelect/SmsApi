@@ -18,7 +18,12 @@ class MessagesController extends Controller
 
         if ($type == 'all') {
 
-            $messages = Message::where(['user_id' => Auth::user()->id])->orderBy('id', 'desc');
+            $messages = Message::where(['user_id' => Auth::user()->id])
+                                ->where(function ($query) {
+                                    $query->where('status', '=', 'pending')
+                                        ->orWhere('status', '=', 'completed');
+                                })
+                                ->orderBy('id', 'desc');
 
             if($page > 0)
                 $messages->skip($page - 1 * 50)->take(50);
@@ -30,7 +35,7 @@ class MessagesController extends Controller
                 $response[] = [
 
                     'id'            => $row->id,
-                    'status'        => strtoupper($row->status),
+                    'status'        => ($row->status == 'pending') ? 'Scheduled' : 'Sent',
                     'scheduled'     => $row->scheduled,
                     'recipients'    => number_format($row->sms_bank->count()),
                     'body'          => $row->body,
@@ -66,11 +71,13 @@ class MessagesController extends Controller
     public function analysis(Request $request)
     {
         $schedule = Message::where(['user_id' => Auth::user()->id, 'status' => 'pending'])
+                            ->whereRaw('MONTH(created_at) = ?',[date('m')])
                             ->whereNotNull('schedule_date')
                             ->get()
                             ->count();
 
         $sent = Message::where(['user_id' => Auth::user()->id, 'status' => 'completed'])
+            ->whereRaw('MONTH(created_at) = ?',[date('m')])
             ->whereNull('schedule_date')
             ->get()
             ->count();
