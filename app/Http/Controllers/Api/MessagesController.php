@@ -33,7 +33,7 @@ class MessagesController extends Controller
                 'body'          => $row->body,
                 'sender'        => $row->sender_name,
                 'cost'          => number_format($row->sms_units * 4),
-                'date'          => _date($row->created_at, true),
+                'date'          => date('M d, Y', strtotime($row->created_at)),
 
             ];
         }

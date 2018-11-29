@@ -29,7 +29,7 @@ class MessageController extends Controller
             'body'          => $message->body,
             'sender'        => $message->sender_name,
             'cost'          => number_format($message->sms_units * 4),
-            'date'          => _date($message->created_at),
+            'date'          => date('M d, Y g:i A', strtotime($message->created_at)),
             'details'       => $message->sms_bank
             
         ];
