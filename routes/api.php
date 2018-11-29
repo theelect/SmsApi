@@ -11,6 +11,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function(){
 
 	Route::get('messages', 'MessagesController@index');
+	Route::get('messages/{type?}', 'MessagesController@index');
+
 	Route::post('message', 'MessageController@save');
 	Route::post('message/{id?}/destroy', 'MessageController@deleteMessage');
 	Route::get('message/{id?}', 'MessageController@index');
