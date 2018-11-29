@@ -19,6 +19,7 @@ class CreateContactsTable extends Migration
             $table->integer('user_id');
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
+            $table->string('othername')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->integer('month')->nullable();
@@ -26,6 +27,9 @@ class CreateContactsTable extends Migration
             $table->integer('age_bracket_id')->nullable();
             $table->enum('marital_status', ['unspecified', 'single', 'married'])->default('unspecified')->nullable();
             $table->integer('state_id')->nullable();
+            $table->string('state')->nullable();
+            $table->string('vin')->nullable();
+            $table->string('occupation')->nullable();
             $table->integer('local_id')->nullable();
             $table->enum('language', ['english', 'yoruba', 'igbo', 'hausa'])->default('english')->nullable();
             $table->enum('gender', ['male', 'female', 'none'])->default('none')->nullable();

@@ -1,4 +1,5 @@
 /.idea
+.phpintel
 /vendor
 Homestead.json
 Homestead.yaml

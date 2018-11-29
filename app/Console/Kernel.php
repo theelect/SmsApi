@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call('App\Http\Controllers\Cron\MessageController@run')->everyMinute();
         $schedule->call('App\Http\Controllers\Cron\ScheduleController@run')->daily();
+        $schedule->call('App\Http\Controllers\PullingController@run')->everyMinute();
     }
 
     protected function commands()
