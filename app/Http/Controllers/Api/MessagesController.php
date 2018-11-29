@@ -56,7 +56,7 @@ class MessagesController extends Controller
 
 
             foreach($messages as $key => $row){
-                $response[$key] = $row->toArray();
+                $response[][$key] = $row->toArray();
             }
         }
 
