@@ -28,6 +28,8 @@ class CreateContactsTable extends Migration
             $table->enum('marital_status', ['unspecified', 'single', 'married'])->default('unspecified')->nullable();
             $table->integer('state_id')->nullable();
             $table->string('state')->nullable();
+            $table->string('lga')->nullable();
+            $table->string('ward')->nullable();
             $table->string('vin')->nullable();
             $table->string('occupation')->nullable();
             $table->integer('local_id')->nullable();
