@@ -62,9 +62,9 @@ class MessageController extends Controller
             'sender_name'       => request('sender', null),
         ]);
 
-        if(request('recipients_type') == 'customized'){
+        if(request('recipients_type') == 'customize'){
 
-            $customzied = CustomzedRecipient::create([
+            $customized = CustomizedRecipient::create([
 
                 'message_id'    => $message->id,
                 'age_bracket'   => json_encode(request('ages', [])),
@@ -72,10 +72,10 @@ class MessageController extends Controller
                 'locals'        => json_encode(request('locals', [])),
                 'wards'         => json_encode(request('wards', [])),
                 'group'         => json_encode(request('groups', [])),
-                'birt_months'   => json_encode(request('months', [])),
+                'birth_month'   => json_encode(request('months', [])),
             ]);
 
-            $message->update(['customized_recipents_id' => $customized->id]);
+            $message->update(['customized_recipients_id' => $customized->id]);
 
         }
 
