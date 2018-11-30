@@ -20,7 +20,7 @@ class CreateMessageRequest extends FormRequest
             'sender'            => 'required',
             'recipients_type'   => 'required|in:all,customize,custom',
             'ages'              => 'required_if:recipients_type,customize|array',
-            'groups'            => 'required_if:recipients_type,customize|array',
+            'occupations'       => 'required_if:recipients_type,customize|array',
             'locals'            => 'required_if:recipients_type,customize|array',
             'wards'             => 'required_if:recipients_type,customize|array',
             'scheduled'         => 'numeric|in:0,1',

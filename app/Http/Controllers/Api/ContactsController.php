@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contact;
 use App\AgeBracket;
-use App\Group;
+use App\Occupation;
 
 class ContactsController extends Controller
 {
@@ -31,7 +31,7 @@ class ContactsController extends Controller
         }
 
         $ages           = AgeBracket::select(['id', 'name'])->get();
-        $occupation     = Group::select(['id', 'name'])->get();
+        $occupation     = Occupation::select(['id', 'name'])->get();
 
         $months = [];
 

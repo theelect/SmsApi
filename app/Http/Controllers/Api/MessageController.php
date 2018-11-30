@@ -71,7 +71,7 @@ class MessageController extends Controller
                 'gender'        => json_encode(request('gender', [])),
                 'locals'        => json_encode(request('locals', [])),
                 'wards'         => json_encode(request('wards', [])),
-                'group'         => json_encode(request('groups', [])),
+                'occupation'    => json_encode(request('occupations', [])),
                 'birth_month'   => json_encode(request('months', [])),
             ]);
 
