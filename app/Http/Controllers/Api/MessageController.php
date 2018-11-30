@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Message;
+use App\Recipient;
 use App\CustomizedRecipient;
 use App\Http\Requests\CreateMessageRequest;
 
@@ -31,7 +32,8 @@ class MessageController extends Controller
             'sender'        => $message->sender_name,
             'cost'          => number_format($message->sms_units * 4),
             'date'          => _date($message->created_at),
-            'details'       => $message->sms_bank
+            'details'       => $message->sms_bank,
+            'customized'    => Recipient::recipients($message->id)
             
         ];
 
@@ -78,6 +80,8 @@ class MessageController extends Controller
             $message->update(['customized_recipients_id' => $customized->id]);
 
         }
+
+        $message->update(['status' => 'queued']);
 
         return response()->json(['status' => true, 'data' => $message], 201);
     }

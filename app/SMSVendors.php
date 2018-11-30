@@ -30,8 +30,8 @@ class SMSVendors
 	{
 		try{
 
-			//if(env('APP_ENV') == 'local')
-			//	return 'successful-rout-sms';
+			// if(env('APP_ENV') == 'local')
+			// 	return 'successful-rout-sms';
 
 			$endpoint = 	"http://smsplus4.routesms.com/bulksms/bulksms?username=escape1&password=z9m2w4x7";
 			$endpoint.= 	"&type=0&destination={$phone}";

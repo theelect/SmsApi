@@ -46,7 +46,7 @@ class PullingController extends Controller
 
                     if($row->occupation){
 
-                        $occupation = Occupation::where(['user_id' => Auth::user()->id, 'name' => $row->occupation])->first();
+                        $occupation = Occupation::where(['user_id' => 1, 'name' => $row->occupation])->first();
 
                         if($occupation){
 
@@ -54,7 +54,7 @@ class PullingController extends Controller
                         
                         }else{
 
-                            $occupation = Occupation::create(['user_id' => Auth::user()->id, 'name' => ucfirst($row->occupation)]);
+                            $occupation = Occupation::create(['user_id' => 1, 'name' => ucfirst($row->occupation)]);
 
                             $occupation_id = $occupation->id;
                         }
