@@ -71,8 +71,8 @@ class Recipient extends Model
 			// if($age_bracket != null)
 			// 	$query->whereIn('contacts.age_bracket_id', $age_bracket);
 
-			if($birth_month != null)
-				$query->whereIn('contacts.month', $birth_month);
+			// if($birth_month != null)
+			// 	$query->whereIn('contacts.month', $birth_month);
 
 			if($occupation != null)
 				$query->whereIn('contacts.occupation_id', $occupation);
