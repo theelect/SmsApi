@@ -12,47 +12,28 @@ class MessagesController extends Controller
 {
     public function index(Request $request, $type = '')
     {
-        $page = request('page', 0);
+        $page       = request('page', 0);
+        $user_id    = Auth::user()->id;
 
         $response = [];
 
         if ($type == 'all') {
 
-            $messages = Message::where(['user_id' => Auth::user()->id])
-                                ->where(function ($query) {
-                                    $query->where('status', '=', 'pending')
-                                        ->orWhere('status', '=', 'completed');
-                                })
-                                ->orderBy('id', 'desc');
+            $messages = Message::by($user_id)->orderBy('id', 'desc');
 
             if($page > 0)
                 $messages->skip($page - 1 * 50)->take(50);
 
-            $messages = $messages->get();
-
-            foreach($messages as $row){
-
-                $response[] = [
-
-                    'id'            => $row->id,
-                    'status'        => ($row->status == 'pending') ? 'Scheduled' : 'Sent',
-                    'scheduled'     => $row->scheduled,
-                    'recipients'    => number_format($row->sms_bank->count()),
-                    'body'          => $row->body,
-                    'sender'        => $row->sender_name,
-                    'cost'          => number_format($row->sms_units * 4),
-                    'date'          => _date($row->created_at, true),
-
-                ];
-            }
+            $response = Message::transform($messages->get());
         }
 
         if ($type == 'month' || $type == 'year') {
 
-            $messages = Message::where(['user_id' => Auth::user()->id])
+            $messages = Message::by($user_id)
                 ->orderBy('id', 'desc')
                 ->get()
                 ->groupBy(function($val) use ($type) {
+
                     return ($type == 'month') ? Carbon::parse($val->created_at)->format('M') : Carbon::parse($val->created_at)->format('Y');
                 });
 
@@ -61,6 +42,7 @@ class MessagesController extends Controller
 
 
             foreach($messages as $key => $row){
+
                 $response[][$key] = $row->toArray();
             }
         }

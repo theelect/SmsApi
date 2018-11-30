@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
                     'status'    => false, 
                     'data'      => $error
 
-                ], 422);
+                ], 200);
 
             }
             

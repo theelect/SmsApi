@@ -19,7 +19,8 @@ class MessageController extends Controller
 
 	public function run()
 	{		
-		$message = Message::where(['status' => 'queued', 'scheduled' => 0])->first();
+		//message = Message::where(['status' => 'queued', 'scheduled' => 0])->first();
+		$message = Message::where(['status' => 'queued'])->first();
 
 		if($message != null)
 			$this->populateBank($message);

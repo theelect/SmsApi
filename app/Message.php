@@ -24,4 +24,32 @@ class Message extends Model
 		return $this->hasMany('App\SmsBank');
 	}
 
+	public function scopeBy($query, $user_id)
+	{
+		return $query->where(['user_id' => $user_id]);
+	}
+
+	public static function transform($messages = [])
+	{
+		$response = [];
+
+		foreach($messages as $row){
+
+			$response[] = [
+
+				'id'            => $row->id,
+				'status'        => ($row->status == 'pending') ? 'Scheduled' : 'Sent',
+				'scheduled'     => $row->scheduled,
+				'recipients'    => number_format($row->sms_bank->count()),
+				'body'          => $row->body,
+				'sender'        => $row->sender_name,
+				'cost'          => number_format($row->sms_units * 4),
+				'date'          => _date($row->created_at, true),
+
+			];
+		}
+
+		return $response;
+	}
+
 }

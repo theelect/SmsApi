@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Setting;
 use App\Contact;
+use App\Occupation;
+use App\AgeBracket;
+use Auth;
 use DB;
 
 class PullingController extends Controller
@@ -38,25 +41,49 @@ class PullingController extends Controller
 
                     if(!isset($row->phone)) return;
 
-                    $phone = _tophone(($row->phone));
+                    $phone              = _tophone(($row->phone));
+                    $occupation_id      = 0;
+
+                    if($row->occupation){
+
+                        $occupation = Occupation::where(['user_id' => 1, 'name' => $row->occupation])->first();
+
+                        if($occupation){
+
+                            $occupation_id = $occupation->id;
+                        
+                        }else{
+
+                            $occupation = Occupation::create(['user_id' => 1, 'name' => ucfirst($row->occupation)]);
+
+                            $occupation_id = $occupation->id;
+                        }
+                    }
+
+                    $occupation = Occupation::firstOrNew(['name' => $row->occupation ?? '']);
+
+                    $month = 0;
 
                     Contact::updateOrCreate(['phone' => $phone],[
 
-                        'user_id'       => 1,
-                        'firstname'     => $row->first_name ?? '',
-                        'lastname'      => $row->last_name ?? '',
-                        'othername'     => $row->other_names ?? '',
-                        'phone'         => $phone,
-                        'gender'        => $row->gender ?? '',
-                        'occupation'    => $row->occupation ?? '',
-                        'vin'           => $row->vin ?? '',
-                        'state'         => $row->state_name ?? '',
-                        'state_id'      => $row->state_id ?? 0,
-                        'local'         => $row->lga ?? '',
-                        'ward'          => $row->ward ?? '',
-                        'language'      => 'english',
-                        'gender'        => $row->gender ?? 'none',
-                        'status'        => 'active'
+                        'user_id'           => 1,
+                        'firstname'         => $row->first_name ?? '',
+                        'lastname'          => $row->last_name ?? '',
+                        'othername'         => $row->other_names ?? '',
+                        'phone'             => $phone,
+                        'gender'            => $row->gender ? strtolower($row->gender) : '',
+                        'age_bracket_id'    => 0,
+                        'occupation_id'     => $occupation_id,
+                        'vin'               => $row->vin ?? '',
+                        'state'             => $row->state_name ?? '',
+                        'state_id'          => $row->state_id ?? 0,
+                        'local'             => $row->lga ?? '',
+                        'ward'              => $row->ward ?? '',
+                        'birth_date'        => date('Y-m-d', strtotime($row->birth_date ?? date('Y-m-d'))),
+                        'month'             => $month,
+                        'language'          => 'english',
+                        'gender'            => $row->gender ?? 'none',
+                        'status'            => 'active'
                     ]);
 
                     $i++;
