@@ -24,6 +24,7 @@ class CreateContactsTable extends Migration
             $table->string('email')->nullable();
             $table->integer('month')->nullable();
             $table->integer('day')->nullable();
+            $table->datetime('birth_date')->nullable();
             $table->integer('age_bracket_id')->nullable();
             $table->enum('marital_status', ['unspecified', 'single', 'married'])->default('unspecified')->nullable();
             $table->integer('state_id')->nullable();
