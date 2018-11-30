@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Message;
+use App\CustomizedRecipient;
 use App\Http\Requests\CreateMessageRequest;
 
 class MessageController extends Controller
@@ -61,6 +62,23 @@ class MessageController extends Controller
             'sender_name'       => request('sender', null),
         ]);
 
+        if(request('recipients_type') == 'customized'){
+
+            $customzied = CustomzedRecipient::create([
+
+                'message_id'    => $message->id,
+                'age_bracket'   => json_encode(request('ages', [])),
+                'gender'        => json_encode(request('gender', [])),
+                'locals'        => json_encode(request('locals', [])),
+                'wards'         => json_encode(request('wards', [])),
+                'group'         => json_encode(request('groups', [])),
+                'birt_months'   => json_encode(request('months', [])),
+            ]);
+
+            $message->update(['customized_recipents_id' => $customized->id]);
+
+        }
+
         return response()->json(['status' => true, 'data' => $message], 201);
     }
 
@@ -77,6 +95,5 @@ class MessageController extends Controller
         $message->delete();
 
         return response()->json(['status' => true, 'data' => 'Message Deleted Succesfully']);
-
     }
 }

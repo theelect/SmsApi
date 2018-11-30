@@ -5,34 +5,48 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contact;
+use App\AgeBracket;
+use App\Group;
 
 class ContactsController extends Controller
 {
-    public function locals()
+    public function contactsDefaults()
     {
         $locals = Contact::select('local')->where('local', '!=', null)->groupBy('local')->get();
 
-        $response = [];
+        $_locals = [];
         
         foreach($locals as $row){
 
-        	$response[] = ['name' => $row->local];
+        	$_locals[] = ['name' => $row->local];
         }
 
-        return response()->json(['status' => true, 'data' => $response]);
-    }
+        $wards = Contact::select('ward')->where('ward', '!=', null)->groupBy('ward')->get();
 
-    public function wards()
-    {
-        $locals = Contact::select('ward')->where('ward', '!=', null)->groupBy('ward')->get();
-
-        $response = [];
+        $_wards = [];
         
-        foreach($locals as $row){
+        foreach($wards as $row){
 
-        	$response[] = ['name' => $row->ward];
+            $_wards[] = ['name' => $row->ward];
         }
 
-        return response()->json(['status' => true, 'data' => $response]);
+        $ages           = AgeBracket::select(['id', 'name'])->get();
+        $occupation     = Group::select(['id', 'name'])->get();
+
+        $months = [];
+
+        foreach(_months() as $index => $value){
+
+            $months[] = ['id' => $index, 'name' => $value];
+        }
+
+        return response()->json(['status' => true, 'data' => [
+
+            'locals'        => $_locals,
+            'wards'         => $_wards,
+            'ages'          => $ages,
+            'occupations'   => $occupation,
+            'months'        => $months
+        ]]);
     }
 }

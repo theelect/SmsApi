@@ -20,6 +20,6 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function(){
 
 });
 
-Route::get('locals', 'Api\ContactsController@locals');
+Route::get('contacts-defaults', 'Api\ContactsController@contactsDefaults');
 Route::get('wards', 'Api\ContactsController@wards');
 

@@ -54,6 +54,7 @@ class PullingController extends Controller
                         'state_id'      => $row->state_id ?? 0,
                         'local'         => $row->lga ?? '',
                         'ward'          => $row->ward ?? '',
+                        'birt_date'     => date('Y-m-d', strtotime($row->birth_date ?? date('Y-m-d'))),
                         'language'      => 'english',
                         'gender'        => $row->gender ?? 'none',
                         'status'        => 'active'
